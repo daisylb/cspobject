@@ -1,0 +1,28 @@
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    sha: v0.9.2
+    hooks:
+    -   id: check-added-large-files
+    -   id: check-case-conflict
+    -   id: check-merge-conflict
+    -   id: debug-statements
+        language_version: python3.5
+    -   id: end-of-file-fixer
+    -   id: trailing-whitespace
+    -   id: autopep8-wrapper
+        language_version: python3.5
+-   repo: https://github.com/Lucas-C/pre-commit-hooks
+    sha: v1.1.1
+    hooks:
+    -   id: forbid-crlf
+        exclude: \.csv$
+    -   id: forbid-tabs
+        exclude: Makefile|\.bat$
+-   repo: git://github.com/FalconSocial/pre-commit-python-sorter
+    sha: 1.0.4
+    hooks:
+    -   id: python-import-sorter
+        language_version: python3.5
+-   repo: git://github.com/guykisel/prospector-mirror
+    sha: b27f281eb9398fc8504415d7fbdabf119ea8c5e1
+    hooks:
+    -   id: prospector

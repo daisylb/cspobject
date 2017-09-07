@@ -13,7 +13,7 @@ setup(
     include_package_data=True,
 
     install_requires=[
-        'begins',
+        'attrs>=17.2.0,<18',
     ],
     extras_require={
         'dev': [

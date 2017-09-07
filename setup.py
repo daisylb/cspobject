@@ -2,11 +2,11 @@ from setuptools import find_packages, setup
 
 setup(
     name='cspobject',
-    description='My awesome project',
-    url='https://example.com/',
+    description='An object-oriented representation of Content Security Policies',
+    url='https://github.com/adambrenecki/cspobject',
     author='Adam Brenecki',
-    author_email='abrenecki@cmv.com.au',
-    license='Proprietary',
+    author_email='adam@brenecki.id.au',
+    license='MIT',
     setup_requires=["setuptools_scm>=1.11.1"],
     use_scm_version=True,
     packages=find_packages(),
@@ -20,8 +20,5 @@ setup(
             'pytest',
             'prospector',
         ]
-    },
-    entry_points={
-        'console_scripts': ['cspobject=cspobject.cli:main.start'],
     },
 )

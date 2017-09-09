@@ -19,6 +19,8 @@ setup(
         'dev': [
             'pytest',
             'prospector',
+            'hypothesis>=3.24.1,<3.25',
+            'hypothesis-pytest',
         ]
     },
 )

@@ -1,4 +1,4 @@
-from . import CSPObject
+from .. import CSPObject
 
 
 def test_equality():

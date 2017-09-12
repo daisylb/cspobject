@@ -37,6 +37,25 @@ class CSPObject:
     sandbox_allow = attr.ib(convert=frozenset, default=frozenset())
     upgrade_insecure_requests = attr.ib(convert=bool, default=False)
 
+    @classmethod
+    def parse(cls, policy):
+        if not policy:
+            return CSPObject()
+
+        kwargs = {}
+        for directive_str in policy.split(';'):
+            directive, *args = directive_str.split()
+            arg = directive.replace('-', '_')
+            if directive in (
+                'block-all-mixed-content',
+                'upgrade-insecure-requests',
+            ):
+                kwargs[arg] = True
+            else:
+                kwargs[arg] = args
+        print('kwargs=%r' % kwargs)
+        return cls(**kwargs)
+
     def __repr__(self):
         rv = []
         for k, v in attr.asdict(self).items():

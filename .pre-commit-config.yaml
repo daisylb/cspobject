@@ -22,7 +22,11 @@
     hooks:
     -   id: python-import-sorter
         language_version: python3.5
--   repo: git://github.com/guykisel/prospector-mirror
-    sha: b27f281eb9398fc8504415d7fbdabf119ea8c5e1
+-   repo: local
     hooks:
     -   id: prospector
+        name: Prospector
+        description: 'This hook runs Prospector: https://github.com/landscapeio/prospector'
+        entry: prospector
+        language: system
+        files: \.py$

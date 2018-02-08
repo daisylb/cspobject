@@ -166,7 +166,7 @@ class CSPObject:
             upgrade_insecure_requests=self.upgrade_insecure_requests and other.upgrade_insecure_requests,
         )
 
-    def __and__(self, other):
+    def __or__(self, other):
         if not isinstance(other, CSPObject):
             raise TypeError("Expected CSPObject, got {}".format(type(other)))
         return self.union(other)

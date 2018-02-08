@@ -1,6 +1,14 @@
 import attr
 
 
+def _to_frozenset(value):
+    """Convert cspobject arguments into frozensets."""
+
+    if isinstance(value, str):
+        return frozenset(value.split())
+    return frozenset(value)
+
+
 def _sandbox_convert(value):
     """Normalise values for the 'sandbox' argument."""
 
@@ -17,40 +25,40 @@ def _sandbox_convert(value):
         return True
 
     # If there's a list of exceptions, return it as a frozen set.
-    return frozenset(value)
+    return _to_frozenset(value)
 
 
 @attr.s(repr=False)
 class CSPObject:
-    default_src = attr.ib(convert=frozenset, default=frozenset())
+    default_src = attr.ib(convert=_to_frozenset, default=frozenset())
 
     # The following fall back to default_src
-    child_src = attr.ib(convert=frozenset, default=frozenset())
-    connect_src = attr.ib(convert=frozenset, default=frozenset())
-    font_src = attr.ib(convert=frozenset, default=frozenset())
-    img_src = attr.ib(convert=frozenset, default=frozenset())
-    manifest_src = attr.ib(convert=frozenset, default=frozenset())
-    media_src = attr.ib(convert=frozenset, default=frozenset())
-    object_src = attr.ib(convert=frozenset, default=frozenset())
-    script_src = attr.ib(convert=frozenset, default=frozenset())
-    style_src = attr.ib(convert=frozenset, default=frozenset())
+    child_src = attr.ib(convert=_to_frozenset, default=frozenset())
+    connect_src = attr.ib(convert=_to_frozenset, default=frozenset())
+    font_src = attr.ib(convert=_to_frozenset, default=frozenset())
+    img_src = attr.ib(convert=_to_frozenset, default=frozenset())
+    manifest_src = attr.ib(convert=_to_frozenset, default=frozenset())
+    media_src = attr.ib(convert=_to_frozenset, default=frozenset())
+    object_src = attr.ib(convert=_to_frozenset, default=frozenset())
+    script_src = attr.ib(convert=_to_frozenset, default=frozenset())
+    style_src = attr.ib(convert=_to_frozenset, default=frozenset())
 
     # The following fall back to child_src (then default_src)
-    frame_src = attr.ib(convert=frozenset, default=frozenset())
-    worker_src = attr.ib(convert=frozenset, default=frozenset())
+    frame_src = attr.ib(convert=_to_frozenset, default=frozenset())
+    worker_src = attr.ib(convert=_to_frozenset, default=frozenset())
 
     # The following fail open (don't fall back to default_src)
-    base_uri = attr.ib(convert=frozenset, default=frozenset())
-    form_action = attr.ib(convert=frozenset, default=frozenset())
-    frame_ancestors = attr.ib(convert=frozenset, default=frozenset())
+    base_uri = attr.ib(convert=_to_frozenset, default=frozenset())
+    form_action = attr.ib(convert=_to_frozenset, default=frozenset())
+    frame_ancestors = attr.ib(convert=_to_frozenset, default=frozenset())
 
     # The following are not source lists (and so cannot fall back to
     # default_src)
     block_all_mixed_content = attr.ib(convert=bool, default=False)
-    plugin_types = attr.ib(convert=frozenset, default=frozenset())
+    plugin_types = attr.ib(convert=_to_frozenset, default=frozenset())
     referrer = attr.ib(default=None)
     report_uri = attr.ib(default=None)
-    require_sri_for = attr.ib(convert=frozenset, default=frozenset())
+    require_sri_for = attr.ib(convert=_to_frozenset, default=frozenset())
     # Sandbox can either be 
     sandbox = attr.ib(convert=_sandbox_convert, default=False)
     upgrade_insecure_requests = attr.ib(convert=bool, default=False)

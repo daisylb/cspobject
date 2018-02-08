@@ -2,3 +2,6 @@
 build/*
 dist/*
 media/*
+__pycache__
+.pytest_cache/
+cspobject.egg-info/

@@ -1,6 +1,25 @@
 import attr
 
 
+def _sandbox_convert(value):
+    """Normalise values for the 'sandbox' argument."""
+
+    # False indicates the sandbox attribute is not present.
+    # True indicates that it is present, but has no exceptions.
+    if isinstance(value, bool):
+        return value
+
+    # If the user passes a falsy value that isn't False, they probably
+    # passed an empty iterable, which means they probably expect the
+    # same behaviour as True (i.e. 'sandbox' with no exceptions).
+    # In this case return True.
+    if not value and value is not False:
+        return True
+
+    # If there's a list of exceptions, return it as a frozen set.
+    return frozenset(value)
+
+
 @attr.s(repr=False)
 class CSPObject:
     default_src = attr.ib(convert=frozenset, default=frozenset())
@@ -32,9 +51,8 @@ class CSPObject:
     referrer = attr.ib(default=None)
     report_uri = attr.ib(default=None)
     require_sri_for = attr.ib(convert=frozenset, default=frozenset())
-    # TODO: proper handling of sandbox
-    sandbox = attr.ib(convert=bool, default=False)
-    sandbox_allow = attr.ib(convert=frozenset, default=frozenset())
+    # Sandbox can either be 
+    sandbox = attr.ib(convert=_sandbox_convert, default=False)
     upgrade_insecure_requests = attr.ib(convert=bool, default=False)
 
     @classmethod
@@ -109,6 +127,13 @@ class CSPObject:
             raise ValueError("Cannot union two CSPObjects that both have the "
                              "report-uri directive set to different values")
 
+        if not self.sandbox or not other.sandbox:
+            sandbox = False
+        else:
+            our_sb = frozenset() if self.sandbox is True else self.sandbox
+            their_sb = frozenset() if other.sandbox is True else other.sandbox
+            sandbox = our_sb & their_sb
+
         return CSPObject(
             default_src=self.default_src.union(other.default_src),
             child_src=self._fallback_union(other, 'child_src'),
@@ -129,8 +154,7 @@ class CSPObject:
             block_all_mixed_content=self.block_all_mixed_content and other.block_all_mixed_content,
             plugin_types=self.plugin_types.union(other.plugin_types),
             referrer=self.referrer or other.referrer,
-            sandbox=self.sandbox and other.sandbox,
-            sandbox_allow=self.sandbox_allow.union(other.sandbox_allow),
+            sandbox=sandbox,
             upgrade_insecure_requests=self.upgrade_insecure_requests and other.upgrade_insecure_requests,
         )
 

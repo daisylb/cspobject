@@ -140,7 +140,7 @@ class CSPObject:
         else:
             our_sb = frozenset() if self.sandbox is True else self.sandbox
             their_sb = frozenset() if other.sandbox is True else other.sandbox
-            sandbox = our_sb & their_sb
+            sandbox = our_sb.union(their_sb)
 
         return CSPObject(
             default_src=self.default_src.union(other.default_src),

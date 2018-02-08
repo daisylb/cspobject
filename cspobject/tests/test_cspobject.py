@@ -32,3 +32,21 @@ def test_union_no_fallback_when_both_specified():
     b = CSPObject(script_src=('https:',))
     assert a & b == CSPObject(default_src=('http:',),
                               script_src=('https:',))
+
+
+def test_union_sandbox_removed():
+    a = CSPObject(sandbox=True)
+    b = CSPObject()
+    assert a & b == CSPObject()
+
+
+def test_union_sandbox_kept():
+    a = CSPObject(sandbox=True)
+    b = CSPObject(sandbox=True)
+    assert a & b == CSPObject(sandbox=True)
+
+
+def test_union_sandbox_exceptions_additive():
+    a = CSPObject(sandbox='allow-scripts')
+    b = CSPObject(sandbox='allow-same-origin')
+    assert a & b == CSPObject(sandbox='allow-scripts allow-same-origin')

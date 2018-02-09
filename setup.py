@@ -21,6 +21,8 @@ setup(
             'prospector',
             'hypothesis>=3.24.1,<3.25',
             'hypothesis-pytest',
+            'sphinx==1.6.7',
+            'sphinx-rtd-theme==0.2.4',
         ]
     },
 )

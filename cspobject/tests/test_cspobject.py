@@ -50,3 +50,11 @@ def test_union_sandbox_exceptions_additive():
     a = CSPObject(sandbox='allow-scripts')
     b = CSPObject(sandbox='allow-same-origin')
     assert a | b == CSPObject(sandbox='allow-scripts allow-same-origin')
+
+
+def test_union_class_method():
+    a = CSPObject.union(
+        CSPObject(default_src=('http:',)),
+        'default-src https:',
+    )
+    assert a == CSPObject(default_src=('http:', 'https:'))

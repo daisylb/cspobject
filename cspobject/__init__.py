@@ -127,7 +127,10 @@ class CSPObject:
             child_src and other.child_src) or other.default_src
         return self_fb.union(other_fb)
 
-    def union(self, other):
+    def __or__(self, other):
+        if not isinstance(other, CSPObject):
+            raise TypeError("Expected CSPObject, got {}".format(type(other)))
+
         if self.referrer and other.referrer:
             raise ValueError("Cannot union two CSPObjects that both have the "
                              "(deprecated) referrer directive set")
@@ -166,7 +169,20 @@ class CSPObject:
             upgrade_insecure_requests=self.upgrade_insecure_requests and other.upgrade_insecure_requests,
         )
 
-    def __or__(self, other):
-        if not isinstance(other, CSPObject):
-            raise TypeError("Expected CSPObject, got {}".format(type(other)))
-        return self.union(other)
+    @classmethod
+    def union(cls, *policies):
+        if not policies:
+            return CSPObject()
+        output = policies[0]
+        if isinstance(output, str):
+            output = cls.parse(output)
+        if not isinstance(output, CSPObject):
+            raise TypeError("Expected CSPObject, got {}".format(type(output)))
+        for policy in policies[1:]:
+            if isinstance(policy, str):
+                policy = cls.parse(policy)
+            if not isinstance(policy, CSPObject):
+                raise TypeError("Expected CSPObject, got {}".format(type(policy)))
+            output |= policy
+        return output
+

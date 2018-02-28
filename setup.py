@@ -23,6 +23,10 @@ setup(
             'hypothesis-pytest',
             'sphinx==1.6.7',
             'sphinx-rtd-theme==0.2.4',
+        ],
+        'dev-django': [
+            'django',
+            'pytest-django==3.1.2',
         ]
     },
 )

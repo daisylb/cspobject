@@ -1,5 +1,6 @@
 from .. import CSPObject
 
+
 def test_normal_request_behaves_normally(client):
     resp = client.get('/')
     assert resp.status_code == 200

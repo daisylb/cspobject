@@ -59,7 +59,7 @@ class CSPObject:
     referrer = attr.ib(default=None)
     report_uri = attr.ib(default=None)
     require_sri_for = attr.ib(convert=_to_frozenset, default=frozenset())
-    # Sandbox can either be 
+    # Sandbox can either be
     sandbox = attr.ib(convert=_sandbox_convert, default=False)
     upgrade_insecure_requests = attr.ib(convert=bool, default=False)
 
@@ -182,7 +182,7 @@ class CSPObject:
             if isinstance(policy, str):
                 policy = cls.parse(policy)
             if not isinstance(policy, CSPObject):
-                raise TypeError("Expected CSPObject, got {}".format(type(policy)))
+                raise TypeError(
+                    "Expected CSPObject, got {}".format(type(policy)))
             output |= policy
         return output
-

@@ -1,5 +1,7 @@
 from django.conf import settings
+
 from . import CSPObject
+
 
 def csp_middleware(get_response):
 
@@ -13,6 +15,5 @@ def csp_middleware(get_response):
         if 'Content-Security-Policy' not in response:
             response['Content-Security-Policy'] = unchanged_csp_string
         return response
-
 
     return middleware

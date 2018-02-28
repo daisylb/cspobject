@@ -32,9 +32,9 @@
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = ['sphinx.ext.autodoc',
-    'sphinx.ext.intersphinx',
-    'sphinx.ext.todo',
-    'sphinx.ext.viewcode']
+              'sphinx.ext.intersphinx',
+              'sphinx.ext.todo',
+              'sphinx.ext.viewcode']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -50,7 +50,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'CSPObject'
-copyright = '2018, Adam Brenecki'
+copyright = '2018, Adam Brenecki'  # noqa
 author = 'Adam Brenecki'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -167,8 +167,6 @@ texinfo_documents = [
      author, 'CSPObject', 'One line description of project.',
      'Miscellaneous'),
 ]
-
-
 
 
 # Example configuration for intersphinx: refer to the Python standard library.

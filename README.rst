@@ -12,7 +12,7 @@ CSPObject is an object-oriented representation of Content Security Policies. You
         img_src=("'self'", "https://flickr.com"),
     )
     assert str(csp1) == "default-src 'self'; img-src 'self' https://flickr.com"
-    
+
     csp2 = CSPObject.parse("default-src 'self'; img-src 'self' https://flickr.com")
     assert csp2 == csp1
 
@@ -29,8 +29,8 @@ But then, we decide we want to load fonts from Typekit. We can make a separate C
 
     >>> typekit = CSPObject(
     ...     script_src=("use.typekit.net",),
-    ...     style_src=("'unsafe-inline'", "use.typekit.net"), 
-    ...     font_src=("use.typekit.net", "fonts.typekit.net"), 
+    ...     style_src=("'unsafe-inline'", "use.typekit.net"),
+    ...     font_src=("use.typekit.net", "fonts.typekit.net"),
     ...     img_src=("p.typekit.net",)
     ... )
 
@@ -58,5 +58,3 @@ Let's say we wanted to add Google Analytics as well. We could continue to use ``
     >>> combined = CSPObject.union(my_site, typekit, "script-src www.google-analytics.com; img-src www.google-analytics.com")
     >>> str(combined)
     "default-src 'self'; font-src use.typekit.net fonts.typekit.net 'self'; img-src p.typekit.net www.google-analytics.com 'self'; script-src use.typekit.net www.google-analytics.com 'self'; style-src 'unsafe-inline' use.typekit.net 'self'"
-
-

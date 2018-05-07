@@ -1,4 +1,9 @@
+import pytest
+
 from .. import CSPObject
+
+
+pytestmark = [pytest.mark.django]
 
 
 def test_normal_request_behaves_normally(client):

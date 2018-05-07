@@ -22,7 +22,7 @@ jobs:
           name: run tox
           command: |
             pip install --user tox
-            export TOXENV=$(tox --listenvs | grep "^${PY_FACTOR}-" | tr '\n' ',')
+            export TOXENV=$(~/.local/bin/tox --listenvs | grep "^${PY_FACTOR}-" | tr '\n' ',')
             ~/.local/bin/tox
       - save_cache:
           paths:

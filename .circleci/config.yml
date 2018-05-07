@@ -5,12 +5,13 @@ workflows:
     jobs:
       - test-py36
       - test-py35
+      - test-py34
 jobs:
   test-py36: &test-template
     docker:
       - image: circleci/python:3.6
     environment:
-      TOX_ENV: py36
+      PY_FACTOR: py36
     steps:
       - checkout
       - restore_cache:
@@ -21,7 +22,8 @@ jobs:
           name: run tox
           command: |
             pip install --user tox
-            ~/.local/bin/tox --notest -e $TOX_ENV
+            export TOXENV=$(tox --listenvs | grep "^${PY_FACTOR}-" | tr '\n' ',')
+            ~/.local/bin/tox
       - save_cache:
           paths:
             - ~/.local
@@ -32,4 +34,10 @@ jobs:
     docker:
       - image: circleci/python:3.5
     environment:
-      TOX_ENV: py35
+      PY_FACTOR: py35
+  test-py34:
+    <<: *test-template
+    docker:
+      - image: circleci/python:3.4
+    environment:
+      PY_FACTOR: py34

@@ -1,47 +1,32 @@
-# Python CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-python/ for more details
-#
 version: 2
+workflows:
+  version: 2
+  test:
+    jobs:
+      - test-py36
+      - test-py35
 jobs:
-  build:
+  test-py36: &test-template
     docker:
-      # specify the version you desire here
-      # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
-      - image: circleci/python:3.6.1
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
-
-    working_directory: ~/repo
-
+      - image: circleci/python:3.6
+    environment:
+      TOX_ENV: py36
     steps:
       - checkout
-
-      # Download and cache dependencies
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "setup.py" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
-
+          - v2-dependencies-{{ checksum "setup.py" }}-{{ checksum "tox.ini" }}
+          - v2-dependencies-
       - run:
-          name: install dependencies
-          command: |
-            python3 -m venv venv
-            . venv/bin/activate
-            pip install -e .[dev]
-
+          name: run tox
+          command: tox --notest -e $TOX_ENV
       - save_cache:
           paths:
-            - ./venv
-          key: v1-dependencies-{{ checksum "setup.py" }}
-
-      # run tests!
-      - run:
-          name: run tests
-          command: |
-            . venv/bin/activate
-            pytest
+            - ./.tox
+          key: v2-dependencies-{{ checksum "setup.py" }}-{{ checksum "tox.ini" }}
+  test-py35:
+    <<: *test-template
+    docker:
+      - image: circleci/python:3.5
+    environment:
+      TOX_ENV: py35

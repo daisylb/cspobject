@@ -6,3 +6,4 @@ __pycache__
 .pytest_cache/
 cspobject.egg-info/
 docs/_build/
+.tox
